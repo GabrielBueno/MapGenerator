@@ -17,7 +17,8 @@ body {
 }
 
 #canvas {
-    width: 75%;
+    /*width: 75%;
+    height: 600px;*/
     margin-top: 60px;
     background-color: #000000;
     border: 1px solid #ffffff;

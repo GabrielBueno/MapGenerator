@@ -1,6 +1,10 @@
 class Graphics {
 	constructor(canvas_id = "canvas") {
 		this.canvas = document.getElementById(canvas_id);
+
+		this.canvas.width = 1024;
+		this.canvas.height = 666;
+
 		this.ctx    = canvas.getContext("2d");
 
 		// Dictionary that tells wich color to use for every possible element on the array
@@ -14,20 +18,18 @@ class Graphics {
 	* matrix (Array) is the matrix that will be drawn
 	*/
 	draw_matrix(matrix) {
-		const canvas_width  = this.canvas.clientWidth;
-		const canvas_height = this.canvas.clientHeight;
+		const canvas_width  = this.canvas.width;
+		const canvas_height = this.canvas.height;
 
 		const matrix_height = matrix.length;
-		const tile_height   = Math.floor(canvas_height / matrix_height); 
+		const tile_height   = canvas_height / matrix_height; 
 
 		for (let y = 0; y < matrix_height; y++) {
 			const line_width = matrix[y].length;
-			const tile_width = Math.floor(canvas_width / line_width);
+			const tile_width = canvas_width / line_width;
 
 			for (let x = 0; x < line_width; x++) {
 				const tile = matrix[y][x];
-
-				console.log(`width: ${tile_width} - height: ${tile_height}`);
 
 				this.fill_rect(x * tile_width, y * tile_height, tile_width, tile_height, this.color_scheme[tile])
 			}
@@ -43,6 +45,8 @@ class Graphics {
 	* h (int) the height of the rect
 	*/
 	fill_rect(x, y, w, h, color) {
+		// console.log(`x: ${x} - y: ${y} - w: ${w} - h: ${h}`);
+
 		const prev_color = this.ctx.fillStyle;
 
 		this.ctx.fillStyle = color;

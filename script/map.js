@@ -13,15 +13,35 @@ class Map {
 	}
 
 	/**
-	* Gets the tile in the map located at the specified coordinates
+	* Gets the number of walls that are neighbors (vertically, horizontally and diagonally) of the tile located at the specified coordinates
 	*
 	* x (int) the x coordinate to be looked at in the map
 	* y (int) the y coordinate to be looked at in the map
 	*
-	* returns (int) the tile at the specified coordinates
+	* returns (int) the number of walls that are neighbors of the tile located at the specified coordinates
 	*/
-	tile_at(x, y) {
+	wall_neighbors_of(x, y, matrix=this.map_array) {
+		let walls = 0;
 
+		for (let offset_y = -1; offset_y <= 1; offset_y++) {
+			for (let offset_x = -1; offset_x <= 1; offset_x++) {
+				if (offset_x == 0 && offset_y == 0)
+					continue;
+
+				const target_x = x + offset_x;
+				const target_y = y + offset_y;
+
+				if (target_y < 0 || target_y >= matrix.length)
+					continue;
+
+				if (target_x < 0 || target_x >= matrix[target_y].length)
+					continue;
+
+				walls += matrix[y + offset_y][x + offset_x] || 0;
+			}
+		}
+
+		return walls;
 	}
 
 	/**
@@ -29,8 +49,8 @@ class Map {
 	*
 	* returns (array) the array that represents the map
 	*/
-	to_array() {
-		
+	get matrix() {
+		return this.map_array;
 	}
 
 	/**
@@ -47,6 +67,11 @@ class Map {
 			this.map_array[y] = [];
 
 			for (let x = 0; x < this.width; x++) {
+				if (y == 0 || y == this.height - 1 || x == 0 || x == this.width - 1) {
+					this.map_array[y][x] = 1;
+					continue;
+				}
+
 				this.map_array[y][x] = Math.random() <= prob ? 1 : 0;
 			}
 		}
@@ -58,7 +83,20 @@ class Map {
 	* returns nothing
 	*/
 	iterate() {
-		return null;
+		const prev_map = this.map_array.slice(0);
+
+		for (let y = 0; y < this.height; y++) {
+			for (let x = 0; x < this.width; x++) {
+				const walls = this.wall_neighbors_of(x, y, prev_map);
+
+				// console.log(`x: ${x} - y: ${y} - walls: ${walls}`);
+
+				if (prev_map[y][x])
+					this.map_array[y][x] = walls >= 4 ? 1 : 0;
+				else
+					this.map_array[y][x] = walls >= 5 ? 1 : 0;
+			}
+		}
 	}
 
 	/**
