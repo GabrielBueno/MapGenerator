@@ -8,6 +8,8 @@ class Map {
 	constructor(width, height) {
 		this.width  = width;
 		this.height = height;
+
+		this.map_array = [];
 	}
 
 	/**
@@ -34,10 +36,20 @@ class Map {
 	/**
 	* Fills randomly the map with the possible tiles
 	*
+	* wall_probability (int) the probability (in %) of a tile to become a wall
+	*
 	* returns nothing
 	*/
-	init_with_random() {
-		return null;
+	init_with_random(wall_probability = 45) {
+		const prob = wall_probability / 100;
+
+		for (let y = 0; y < this.height; y++) {
+			this.map_array[y] = [];
+
+			for (let x = 0; x < this.width; x++) {
+				this.map_array[y][x] = Math.random() <= prob ? 1 : 0;
+			}
+		}
 	}
 
 	/**
@@ -47,10 +59,6 @@ class Map {
 	*/
 	iterate() {
 		return null;
-	}
-
-	static get tiles() { 
-		return { ground: 0, wall: 1 }; 
 	}
 
 	/**
@@ -69,5 +77,7 @@ class Map {
 
 		for (let i = 0; i < steps; i++)
 			map.iterate();
+
+		return map;
 	}
 }
