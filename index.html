@@ -23,5 +23,13 @@
   </div>
 
   <script type="text/javascript" src="script/map.js"></script>
+  <script type="text/javascript" src="script/graphics.js"></script>
+
+  <script type="text/javascript">
+    const map = Map.generate();
+    const graphics = new Graphics("canvas");
+
+    graphics.draw_matrix(map.map_array);
+  </script>
 </body>
 </html>
