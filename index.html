@@ -18,7 +18,8 @@
     </div>
 
     <div class="row">
-      <button>Generate</button>
+      <button onclick="gen()">Generate</button>
+      <button onclick="iter()">Iterate</button>
     </div>
   </div>
 
@@ -26,10 +27,26 @@
   <script type="text/javascript" src="script/graphics.js"></script>
 
   <script type="text/javascript">
-    const map = Map.generate();
     const graphics = new Graphics("canvas");
+    const map = new Map(500, 500);
 
-    graphics.draw_matrix(map.map_array);
+    const gen = () => {
+      console.log("Generating...");
+
+      map.init_with_random();
+
+      graphics.draw_matrix(map.map_array);
+    };
+
+    const iter = () => {
+      console.log("Iterating...");
+      
+      map.iterate();
+
+      graphics.draw_matrix(map.map_array);
+    }
+
+    gen();
   </script>
 </body>
 </html>

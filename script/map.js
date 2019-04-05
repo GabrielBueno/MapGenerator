@@ -23,6 +23,8 @@ class Map {
 	wall_neighbors_of(x, y, matrix=this.map_array) {
 		let walls = 0;
 
+		//console.log(this.matrix);
+
 		for (let offset_y = -1; offset_y <= 1; offset_y++) {
 			for (let offset_x = -1; offset_x <= 1; offset_x++) {
 				if (offset_x == 0 && offset_y == 0)
@@ -32,12 +34,13 @@ class Map {
 				const target_y = y + offset_y;
 
 				if (target_y < 0 || target_y >= matrix.length)
-					continue;
+					walls++;
 
-				if (target_x < 0 || target_x >= matrix[target_y].length)
-					continue;
+				else if (target_x < 0 || target_x >= matrix[target_y].length)
+					walls++;
 
-				walls += matrix[y + offset_y][x + offset_x] || 0;
+				else if (matrix[y + offset_y][x + offset_x])
+					walls++;
 			}
 		}
 
@@ -68,11 +71,11 @@ class Map {
 
 			for (let x = 0; x < this.width; x++) {
 				if (y == 0 || y == this.height - 1 || x == 0 || x == this.width - 1) {
-					this.map_array[y][x] = 1;
+					this.map_array[y][x] = true;
 					continue;
 				}
 
-				this.map_array[y][x] = Math.random() <= prob ? 1 : 0;
+				this.map_array[y][x] = Math.random() <= prob;
 			}
 		}
 	}
@@ -92,9 +95,9 @@ class Map {
 				// console.log(`x: ${x} - y: ${y} - walls: ${walls}`);
 
 				if (prev_map[y][x])
-					this.map_array[y][x] = walls >= 4 ? 1 : 0;
+					this.map_array[y][x] = walls >= 4;
 				else
-					this.map_array[y][x] = walls >= 5 ? 1 : 0;
+					this.map_array[y][x] = walls >= 5;
 			}
 		}
 	}

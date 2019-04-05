@@ -2,14 +2,10 @@ class Graphics {
 	constructor(canvas_id = "canvas") {
 		this.canvas = document.getElementById(canvas_id);
 
-		this.canvas.width = 1024;
+		this.canvas.width  = 1024;
 		this.canvas.height = 666;
 
-		this.ctx    = canvas.getContext("2d");
-
-		// Dictionary that tells wich color to use for every possible element on the array
-		// (if some value isn't present in the dictionary, the color in the 'default' key will be used)
-		this.color_scheme = { 0: "#000000", 1: "#ffffff", "default": "#000000" }
+		this.ctx = canvas.getContext("2d");
 	}
 
 	/**
@@ -22,7 +18,11 @@ class Graphics {
 		const canvas_height = this.canvas.height;
 
 		const matrix_height = matrix.length;
-		const tile_height   = canvas_height / matrix_height; 
+		const tile_height   = canvas_height / matrix_height;
+
+		this.clear();
+
+		// console.log(matrix);
 
 		for (let y = 0; y < matrix_height; y++) {
 			const line_width = matrix[y].length;
@@ -31,7 +31,7 @@ class Graphics {
 			for (let x = 0; x < line_width; x++) {
 				const tile = matrix[y][x];
 
-				this.fill_rect(x * tile_width, y * tile_height, tile_width, tile_height, this.color_scheme[tile])
+				this.fill_rect(x * tile_width, y * tile_height, tile_width, tile_height, tile ? this.color_scheme.alive : this.color_scheme.dead);
 			}
 		}
 	}
@@ -54,4 +54,10 @@ class Graphics {
 
 		this.ctx.fillStyle = prev_color;
 	}
+
+	clear() {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	get color_scheme() { return { alive: "#ffffff", dead: "#000000" }; }
 }
