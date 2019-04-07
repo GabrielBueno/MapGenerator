@@ -14,12 +14,26 @@
 <body>
   <div class="container">
     <div class="row">
-      <canvas id="canvas"></canvas>
+      <canvas id="canvas"></canvas>     
+    </div>
+
+    <div class="row config">
+      <div class="input-group">
+        <label for="width">Size:</label>
+
+        <input type="number" name="width" id="width">
+        <span>X</span>
+        <input type="number" name="height">
+      </div>
+
+      <div class="input-group">
+        <label id="iterations">Iterations: </label>
+        <input type="number" name="iterations" id="iterations">
+      </div>
     </div>
 
     <div class="row">
       <button onclick="gen()">Generate</button>
-      <button onclick="iter()">Iterate</button>
     </div>
   </div>
 

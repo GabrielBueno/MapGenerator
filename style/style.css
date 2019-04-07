@@ -6,29 +6,70 @@ html, body {
 body {
     background-color: #000000;
     font-family: 'VT323', monospace;
+    color: white;
 }
 
 .container {
-
 }
 
 .row {
     text-align: center;
+
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 #canvas {
     /*width: 75%;
     height: 600px;*/
-    margin-top: 60px;
+    margin-top: 10px;
     background-color: #000000;
     border: 1px solid #ffffff;
 }
 
+.config {
+    font-size: 30px;
+}
+
+.input-group {
+    display: inline;
+    border-right: 2px solid white;
+    margin: 0px 5px;
+}
+
+.input-group:last-of-type {
+    border-right: none;
+}
+
+input[type="number"] {
+    font-family: 'VT323', monospace;
+    width: 50px;
+    height: 50px;
+
+    background-color: black;
+    border: 2px solid white;
+    color: white;
+
+    text-decoration: none;
+    text-align: center;
+    font-size: 30px;
+
+    -moz-appearance: textfield;
+
+    transition: all 0.2s;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spinner-button {
+    -webkit-appearance: none;
+}
+
 button {
     font-family: 'VT323', monospace;
-    margin-top: 50px;
     padding: 15px 50px;
     width: 250px;
+
+    cursor: pointer;
 
     background-color: #000000;
     border: 2px solid #ffffff;
@@ -38,8 +79,22 @@ button {
     transition: all 0.3s;
 }
 
-button:hover {
+input:hover,
+input:focus,
+button:hover,
+button:focus {
     background-color: #ffffff;
     border: 2px solid #000000;
     color: #000000;
+    outline: none;
+}
+
+button:focus-visible,
+button:-moz-focusring {
+    outline: none;
+}
+
+::selection,
+::-moz-selection {
+    background-color: #f41d61;
 }
