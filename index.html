@@ -17,18 +17,18 @@
       <canvas id="canvas"></canvas>     
     </div>
 
-    <div class="row config">
+    <div class="row config" id="config">
       <div class="input-group">
         <label for="width">Size:</label>
 
-        <input type="number" name="width" id="width">
+        <input type="number" name="width" id="width" value="100">
         <span>X</span>
-        <input type="number" name="height">
+        <input type="number" name="height" id="height" value="100">
       </div>
 
       <div class="input-group">
         <label id="iterations">Iterations: </label>
-        <input type="number" name="iterations" id="iterations">
+        <input type="number" name="iterations" id="iterations" value="5">
       </div>
     </div>
 
@@ -39,28 +39,17 @@
 
   <script type="text/javascript" src="script/map.js"></script>
   <script type="text/javascript" src="script/graphics.js"></script>
+  <script type="text/javascript" src="script/config.js"></script>
 
   <script type="text/javascript">
     const graphics = new Graphics("canvas");
-    const map = new Map(500, 500);
+    const config   = new Config("config");
 
     const gen = () => {
-      console.log("Generating...");
-
-      map.init_with_random();
+      const map = Map.generate(config.width, config.height, config.iterations);
 
       graphics.draw_matrix(map.map_array);
     };
-
-    const iter = () => {
-      console.log("Iterating...");
-      
-      map.iterate();
-
-      graphics.draw_matrix(map.map_array);
-    }
-
-    gen();
   </script>
 </body>
 </html>
