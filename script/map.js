@@ -112,15 +112,13 @@ class Map {
 	* returns (Promise) a promise that the map will be generated, giving the object generated
 	*/
 	static generate(width = 100, height = 100, steps = 5) {
-		return new Promise((resolve, reject) => {
-			const map = new Map(width, height);
+		const map = new Map(width, height);
 
-			map.init_with_random();
+		map.init_with_random();
 
-			for (let i = 0; i < steps; i++)
-				map.iterate();
+		for (let i = 0; i < steps; i++)
+			map.iterate();
 
-			resolve(map);
-		});
+		return map;
 	}
 }

@@ -47,16 +47,74 @@ class Graphics {
 	fill_rect(x, y, w, h, color) {
 		// console.log(`x: ${x} - y: ${y} - w: ${w} - h: ${h}`);
 
-		const prev_color = this.ctx.fillStyle;
-
 		this.ctx.fillStyle = color;
 		this.ctx.fillRect(x, y, w, h);
-
-		this.ctx.fillStyle = prev_color;
 	}
 
 	clear() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	begin_progress_animation() {
+		this.do_progress_animation();
+	}
+
+	end_progress_animation() {
+		if (this.currentAnimation)
+			clearInterval(this.currentAnimation);
+	}
+
+	do_progress_animation() {
+		const ellipse = {
+			radius: 50,
+			start_angle: 0,
+			end_angle: 0,
+			odd: false,
+
+			centered_x(container_w) { 
+				return (container_w / 2) - (this.radius / 2) 
+			},
+
+			centered_y(container_y) { 
+				return (container_y / 2) - (this.radius / 2) 
+			},
+
+			progress(offset=10) {
+				this.end_angle += offset;
+
+				if (this.end_angle >= 360)
+					this.odd = !this.odd;
+
+				this.end_angle = this.end_angle % 360;
+
+				return (Math.PI/180) * this.end_angle;
+			} 
+		};
+
+		const draw_frame = () => {
+			// this.clear();
+
+			const radius = 50;
+
+			this.ctx.lineWidth = 3;
+			// this.ctx.strokeStyle = ellipse.odd ? "#c4154c" : "#f41d61";
+			this.ctx.strokeStyle = ellipse.odd ? "#000000" : "#ffffff";
+			this.ctx.lineWidth = ellipse.odd ? 5 : 3;
+
+			this.ctx.beginPath();
+			this.ctx.ellipse(
+				ellipse.centered_x(this.canvas.width), 
+				ellipse.centered_y(this.canvas.height), 
+				ellipse.radius, 
+				ellipse.radius, 
+				0, 
+				0, 
+				ellipse.progress()
+			);
+			this.ctx.stroke();
+		};
+
+		this.currentAnimation = window.setInterval(draw_frame, 1);
 	}
 
 	get color_scheme() { return { alive: "#ffffff", dead: "#000000" }; }

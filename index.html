@@ -34,6 +34,7 @@
 
     <div class="row">
       <button onclick="gen()">Generate</button>
+      <button onclick="iter()">Iterate</button>
     </div>
   </div>
 
@@ -44,11 +45,21 @@
   <script type="text/javascript">
     const graphics = new Graphics("canvas");
     const config   = new Config("config");
+    let map = new Map();
 
     const gen = () => {
-        Map.generate(config.width, config.height, config.iterations)
-          .then(r => graphics.draw_matrix(r.map_array));
+      graphics.clear();
+
+      map = Map.generate(config.width, config.height, config.iterations);
+
+      graphics.draw_matrix(map.map_array);
     };
+
+    const iter = () => {
+      map.iterate();
+
+      graphics.draw_matrix(map.map_array);
+    }
   </script>
 </body>
 </html>
