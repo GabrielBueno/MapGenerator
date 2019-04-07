@@ -109,16 +109,18 @@ class Map {
 	* height (int) the number of tiles in the y axis 
 	* steps  (int) the number of times to iterate over the map
 	*
-	* returns (Map) the map object generated
+	* returns (Promise) a promise that the map will be generated, giving the object generated
 	*/
 	static generate(width = 100, height = 100, steps = 5) {
-		const map = new Map(width, height);
+		return new Promise((resolve, reject) => {
+			const map = new Map(width, height);
 
-		map.init_with_random();
+			map.init_with_random();
 
-		for (let i = 0; i < steps; i++)
-			map.iterate();
+			for (let i = 0; i < steps; i++)
+				map.iterate();
 
-		return map;
+			resolve(map);
+		});
 	}
 }

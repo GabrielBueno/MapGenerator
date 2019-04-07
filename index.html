@@ -46,9 +46,8 @@
     const config   = new Config("config");
 
     const gen = () => {
-      const map = Map.generate(config.width, config.height, config.iterations);
-
-      graphics.draw_matrix(map.map_array);
+        Map.generate(config.width, config.height, config.iterations)
+          .then(r => graphics.draw_matrix(r.map_array));
     };
   </script>
 </body>
