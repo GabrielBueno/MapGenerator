@@ -12,6 +12,10 @@ class Map {
 		this.map_array = [];
 	}
 
+	is_offbounds(x, y) {
+		return y == 0 || y == this.height - 1 || x == 0 || x == this.width - 1;
+	}
+
 	/**
 	* Gets the number of walls that are neighbors (vertically, horizontally and diagonally) of the tile located at the specified coordinates
 	*
@@ -20,10 +24,8 @@ class Map {
 	*
 	* returns (int) the number of walls that are neighbors of the tile located at the specified coordinates
 	*/
-	wall_neighbors_of(x, y, matrix=this.map_array) {
+	wall_neighbors_of(x, y) {
 		let walls = 0;
-
-		//console.log(this.matrix);
 
 		for (let offset_y = -1; offset_y <= 1; offset_y++) {
 			for (let offset_x = -1; offset_x <= 1; offset_x++) {
@@ -33,13 +35,13 @@ class Map {
 				const target_x = x + offset_x;
 				const target_y = y + offset_y;
 
-				if (target_y < 0 || target_y >= matrix.length)
+				if (target_y < 0 || target_y >= this.map_array.length)
 					walls++;
 
-				else if (target_x < 0 || target_x >= matrix[target_y].length)
+				else if (target_x < 0 || target_x >= this.map_array[target_y].length)
 					walls++;
 
-				else if (matrix[y + offset_y][x + offset_x])
+				else if (this.map_array[y + offset_y][x + offset_x])
 					walls++;
 			}
 		}
@@ -70,7 +72,7 @@ class Map {
 			this.map_array[y] = [];
 
 			for (let x = 0; x < this.width; x++) {
-				if (y == 0 || y == this.height - 1 || x == 0 || x == this.width - 1) {
+				if (this.is_offbounds(x, y)) {
 					this.map_array[y][x] = true;
 					continue;
 				}
@@ -86,20 +88,23 @@ class Map {
 	* returns nothing
 	*/
 	iterate() {
-		const prev_map = this.map_array.slice(0);
+		const next_map = [];
 
 		for (let y = 0; y < this.height; y++) {
+			next_map[y] = [];
+
 			for (let x = 0; x < this.width; x++) {
-				const walls = this.wall_neighbors_of(x, y, prev_map);
+				const walls = this.wall_neighbors_of(x, y);
 
-				// console.log(`x: ${x} - y: ${y} - walls: ${walls}`);
-
-				if (prev_map[y][x])
-					this.map_array[y][x] = walls >= 4;
-				else
-					this.map_array[y][x] = walls >= 5;
+				if (this.map_array[y][x]) {
+					next_map[y][x] = walls >= 4;
+				} else {
+					next_map[y][x] = walls >= 5;
+				}
 			}
 		}
+
+		this.map_array = next_map;
 	}
 
 	/**
