@@ -11,7 +11,7 @@ Then, we iterate over each cell _c_, verifying the number of _living cells_ that
 
 ## Map display
 
-The matrix will be drawn on the screen after the iteration. You generate random maps and tweak values like the size of the map or the number of iterations to run before drawing. You can run an iteration on the existing map, without generating another one.
+The matrix will be drawn on the screen after the iteration. You generate random maps and tweak values like the size of the map or the number of iterations to run before drawing. You can run an iteration on the existing map as well, without generating another one.
 
 ## Run
 
